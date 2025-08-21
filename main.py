@@ -1,5 +1,4 @@
 """
-main.py
 Finance Summarizer using Local LLM (LM Studio) + FAISS + HuggingFace Embeddings + Streamlit
 """
 
@@ -21,13 +20,9 @@ from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 
 
-# ==============================
-# Streamlit UI
-# ==============================
 st.title("📊 Finance Summarizer (Local LLM)")
 st.sidebar.title("🔗 News Article URLs")
 
-# Let user enter up to 3 URLs
 urls = []
 for i in range(3):
     url = st.sidebar.text_input(f"URL {i+1}")
@@ -38,28 +33,20 @@ process_url_clicked = st.sidebar.button("🚀 Process URLs")
 file_path = "vector_index_local.pkl"
 main_placeholder = st.empty()
 
-# Initialize session state storage
 if "all_summaries" not in st.session_state:
     st.session_state.all_summaries = []
 if "docs_raw" not in st.session_state:
     st.session_state.docs_raw = []
 
 
-# ==============================
-# Local LLM Setup (LM Studio)
-# ==============================
 llm = ChatOpenAI(
-    model="openai/gpt-oss-20b",     # Your LM Studio model
-    temperature=0.5,  # Lower temperature for more concise summaries
+    model="openai/gpt-oss-20b",     
+    temperature=0.8,  
     max_tokens=400,
-    openai_api_base="http://localhost:1234/v1",  # LM Studio endpoint
-    openai_api_key="not-needed"  # Dummy key since LM Studio doesn’t need auth
+    openai_api_base="http://localhost:1234/v1",  
+    openai_api_key="not-needed"  # Dummy key
 )
 
-
-# ==============================
-# Helper: Generate PDF
-# ==============================
 def generate_pdf(title, text):
     buffer = io.BytesIO()
     pdf = canvas.Canvas(buffer, pagesize=letter)
@@ -91,19 +78,14 @@ def generate_pdf(title, text):
     return buffer
 
 
-# ==============================
-# Process URLs (when button clicked)
-# ==============================
 if process_url_clicked and urls:
     try:
-        # 1. Load documents
         loader = UnstructuredURLLoader(urls=urls)
         main_placeholder.text("⏳ Loading data from URLs...")
         docs_raw = loader.load()
         st.session_state.docs_raw = docs_raw  # save to session state
         main_placeholder.text(f"✅ Loaded {len(docs_raw)} documents")
 
-        # 2. Split into chunks for indexing
         text_splitter = RecursiveCharacterTextSplitter(
             chunk_size=1000,
             chunk_overlap=200
@@ -111,18 +93,15 @@ if process_url_clicked and urls:
         docs = text_splitter.split_documents(docs_raw)
         main_placeholder.text(f"✅ Split into {len(docs)} document chunks")
 
-        # 3. Build embeddings
         device = "mps" if torch.backends.mps.is_available() else "cpu"
         embeddings = HuggingFaceEmbeddings(
             model_name="sentence-transformers/all-MiniLM-L6-v2",
             model_kwargs={"device": device}
         )
 
-        # 4. Build FAISS index
         vectorindex_local = FAISS.from_documents(docs, embeddings)
         main_placeholder.text("✅ FAISS vector index built successfully")
 
-        # 5. Save index
         with open(file_path, "wb") as f:
             pickle.dump(vectorindex_local, f)
         main_placeholder.text(f"💾 Index saved to {file_path}")
@@ -130,7 +109,6 @@ if process_url_clicked and urls:
         time.sleep(2)
         st.success("🎉 Documents processed successfully! Summarizing each article...")
 
-        # 6. Summarize each article separately with chunking
         summaries = []
         for idx, doc in enumerate(docs_raw):
             # Split long article into smaller chunks
@@ -156,9 +134,6 @@ if process_url_clicked and urls:
         st.error(f"⚠️ Error while processing URLs: {e}")
 
 
-# ==============================
-# Show Summaries (from session_state)
-# ==============================
 if st.session_state.all_summaries:
     st.header("📰 Article Summaries")
     for idx, final_summary in st.session_state.all_summaries:
@@ -200,10 +175,6 @@ if st.session_state.all_summaries:
         mime="application/pdf",
     )
 
-
-# ==============================
-# Ask Questions
-# ==============================
 query = st.text_input("💬 Ask a question about the documents:")
 
 if query:

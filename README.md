@@ -13,14 +13,13 @@ Built with LangChain, HuggingFace Embeddings, FAISS, TextBlob, and Streamlit �
 - ✅ **Q&A on Articles** – Ask natural language questions, get AI-powered answers with sources.
 - ✅ **Local-First** – Works with your own local LLM via LM Studio, no API costs.
 
-🛠️ Tech Stack
-	•	Python 3.10+
-	•	Streamlit – Interactive UI
-	•	LangChain – LLM Orchestration
-	•	FAISS – Vector Search
-	•	HuggingFace Sentence Transformers – Embeddings
-	•	TextBlob – Sentiment Analysis
-	•	ReportLab – PDF Export
+- 🐍 **Core Language** – Built with Python 3.10+ for a modern and robust backend.
+- 🎨 **Interactive UI** – Powered by Streamlit to create a seamless and responsive user interface.
+- 🔗 **LLM Orchestration** – Uses LangChain to structure and manage the entire AI workflow.
+- ⚡ **Vector Search** – Employs FAISS for efficient, high-speed local similarity searches.
+- 🧠 **Text Embeddings** – Generates semantic embeddings using HuggingFace Sentence Transformers.
+- 👍 **Sentiment Analysis** – Performs quick and accurate sentiment scoring with TextBlob.
+- 📄 **PDF Export** – Creates clean, downloadable PDF reports on the fly using ReportLab.
 
 🚀 Installation
 
@@ -45,20 +44,16 @@ Built with LangChain, HuggingFace Embeddings, FAISS, TextBlob, and Streamlit �
     streamlit run main.py
 
 📖 Usage
-	1.	Enter up to 3 article URLs in the sidebar.
-	2.	Click 🚀 Process URLs – the system will:
-	•	Load and chunk articles
-	•	Build embeddings with FAISS
-	•	Generate summaries
-	•	Perform sentiment analysis
-	3.	View summaries in collapsible cards with sentiment tags.
-	4.	Apply filters (e.g., show only 🔴 Negative articles).
-	5.	Search within summaries.
-	6.	Download results as TXT or PDF.
-	7.	Ask questions about the articles in the Q&A section.
+- 🌐 **URL Input** – Easily paste up to 3 article URLs directly into the sidebar.
+- 🚀 **One-Click Processing** – Load, chunk, index, summarize, and analyze sentiment with a single click.
+- 📰 **Organized View** – Read summaries in clean, collapsible cards, each tagged with a clear sentiment icon.
+- ⚖️ **Sentiment Filtering** – Instantly filter articles by sentiment to focus on positive, neutral, or negative news.
+- 🔎 **Keyword Search** – Quickly search across all generated summaries to find specific keywords or topics.
+- 📥 **Flexible Downloads** – Export individual or combined summaries in either TXT or PDF format.
+- 💬 **AI-Powered Q&A** – Ask natural language questions about the content and receive AI-generated answers with sources.
 
 🔮 Future Improvements
-	•	📅 Daily Digest Mode: Enter a stock ticker (e.g., AAPL) → auto-fetch recent financial news.
-	•	📊 Interactive Dashboard: Graphical sentiment trends over time.
-	•	📝 Customizable Summary Length: Slider for short / medium / detailed summaries.
-	•	⚖️ Comparison Summarizer: Compare multiple articles on the same topic.
+- 📅 **Daily Digest Mode** – Enter a stock ticker (e.g., AAPL) to automatically fetch and summarize the latest financial news.
+- 📊 **Interactive Dashboard** – Visualize sentiment trends over time with an interactive graphical dashboard.
+- 📝 **Customizable Summaries** – Use a simple slider to adjust summary length from concise to detailed.
+- ⚖️ **Comparison Summarizer** – Generate a single, comparative summary from multiple articles on the same topic.
